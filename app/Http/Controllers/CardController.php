@@ -32,6 +32,7 @@ class CardController extends Controller
     {
         $card = $request->all();
         $card['user_id'] = $request->user()->id;
+        if (!$request['image_url']) $card['image_url'] = 'https://friconix.com/png/fi-ctluxx-anonymous-user-circle-solid.png'; 
         return new CardResource(CardModel::create($card));
     }
 
@@ -56,7 +57,18 @@ class CardController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'email' => 'email'
+        ]);
+        $card = CardModel::find($id);
+        if (!$card) return Response()->json('Not found',404);
+        if ($request['email']) $card->display_email = $request['email'];
+        if ($request['title']) $card->title = $request['title'];
+        if ($request['description']) $card->display_email = $request['description'];
+        if ($request['mainColor']) $card->main_color = $request['mainColor'];
+        if ($request['imageUrl']) $card->image_url = $request['imageUrl'];
+        $card->save();
+        return new CardResource($card);
     }
 
     /**
@@ -65,5 +77,10 @@ class CardController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function addLink()
+    {
+        return 'add link';
     }
 }
