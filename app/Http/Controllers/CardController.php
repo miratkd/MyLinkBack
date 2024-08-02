@@ -12,9 +12,9 @@ class CardController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return 'foi carai';
+        return CardResource::collection($request->user()->cards()->paginate(10));
     }
 
     /**

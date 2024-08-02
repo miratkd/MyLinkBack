@@ -12,5 +12,9 @@ use App\Http\Controllers\CardController;
 
 
 Route::apiResource('/users', UserController::class);
-Route::apiResource('/cards', CardController::class)->middleware(['auth:sanctum']);
 Route::post('/login', [UserController::class, 'login']);
+
+Route::group(['prefix'=> '/cards', 'middleware' => 'auth:sanctum'], function(){
+    Route::apiResource('/', CardController::class);
+
+});
