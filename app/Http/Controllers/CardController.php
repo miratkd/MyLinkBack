@@ -61,7 +61,8 @@ class CardController extends Controller
             'email' => 'email'
         ]);
         $card = CardModel::find($id);
-        if (!$card) return Response()->json('Not found',404);
+        if (!$card) return Response()->json(['message'=>'Not found'],404);
+        if ($card->user()->first()->id != $request->user()->id) return Response()->json(['message'=>'You can only edit yours own cards'],401);
         if ($request['email']) $card->display_email = $request['email'];
         if ($request['title']) $card->title = $request['title'];
         if ($request['description']) $card->display_email = $request['description'];
@@ -74,9 +75,13 @@ class CardController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id, Request $request)
     {
-        //
+        $card = CardModel::find($id);
+        if (!$card) return Response()->json(['message'=>'Not found'],404);
+        if ($card->user()->first()->id != $request->user()->id) return Response()->json(['message'=>'You can only delete yours own cards'],401);
+        $card->delete();
+        return Response()->json(['message'=>'Card deleted'], 200);
     }
 
     public function addLink()
