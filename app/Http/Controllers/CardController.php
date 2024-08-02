@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateCardRequest;
 use App\Models\CardModel;
+use App\Models\Plataform;
 use App\Http\Resources\CardResource;
+use App\Http\Resources\PlataformResource;
 
 class CardController extends Controller
 {
@@ -82,6 +84,11 @@ class CardController extends Controller
         if ($card->user()->first()->id != $request->user()->id) return Response()->json(['message'=>'You can only delete yours own cards'],401);
         $card->delete();
         return Response()->json(['message'=>'Card deleted'], 200);
+    }
+
+    public function getPlataforms()
+    {
+        return PlataformResource::collection(Plataform::all());
     }
 
     public function addLink()
