@@ -10,6 +10,6 @@ Route::post('/login', [UserController::class, 'login']);
 
 Route::group([ 'middleware' => 'auth:sanctum'], function(){
     Route::apiResource('/cards', CardController::class);
-    Route::post('/cards/test', [CardController::class, 'addLink']);
+    Route::post('/addLink', [CardController::class, 'addLink']);
     Route::get('plataforms', [CardController::class, 'getPlataforms']);
 });

@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateCardRequest;
+use App\Http\Requests\AddLinkRequest;
 use App\Models\CardModel;
 use App\Models\Plataform;
+use App\Models\SelectedLink;
 use App\Http\Resources\CardResource;
+use App\Http\Resources\FullCardResource;
 use App\Http\Resources\PlataformResource;
 
 class CardController extends Controller
@@ -43,7 +46,7 @@ class CardController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return new FullCardResource(CardModel::find($id));
     }
 
     /**
@@ -91,8 +94,20 @@ class CardController extends Controller
         return PlataformResource::collection(Plataform::all());
     }
 
-    public function addLink()
+    public function addLink(AddLinkRequest $request)
     {
-        return 'add link';
+        $plataform = Plataform::find($request['plataformId']);
+        $card = CardModel::find($request['cardId']);
+        if (!$plataform) return Response()->json(['message'=>'Plataform not found'],404);
+        if (!$card) return Response()->json(['message'=>'Card not found'],404);
+        if ($card->user()->first()->id != $request->user()->id) return Response()->json(['message'=>'You can not add a link to this card'],401);
+        $link = new SelectedLink();
+        $link->link = $request['link'];
+        $link->plataform_id = $request['plataformId'];
+        $link->card_model_id = $request['cardId'];
+        if ($request['position']) $link->position = $request['position'];
+        else $link->position = Sizeof($card->links()->get()) + 1;
+        $link->save();
+        return new FullCardResource($card);
     }
 }
