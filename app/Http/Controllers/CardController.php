@@ -34,7 +34,7 @@ class CardController extends Controller
     {
         $card = $request->all();
         $card['user_id'] = $request->user()->id;
-        if (!$request['image_url']) $card['image_url'] = 'https://friconix.com/png/fi-ctluxx-anonymous-user-circle-solid.png'; 
+        if (!$request['image_url']) $card['image_url'] = 'https://github.com/miratkd/MyLinkBack/blob/main/app/Assets/user.png?raw=true'; 
         return new CardResource(CardModel::create($card));
     }
 
