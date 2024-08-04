@@ -118,4 +118,17 @@ class CardController extends Controller
         $link->delete();
         return new FullCardResource($link->card()->first());
     }
+
+    public function updateLink (string $id, Request $request) {
+        $link = SelectedLink::find($id);
+        $plataform = Plataform::find($request['plataformId']);
+        if (!$link) return Response()->json(['message'=>'Link not found'],404);
+        if (!$plataform) return Response()->json(['message'=>'Plataform not found'],404);
+        if ($link->card()->first()->user()->first()->id != $request->user()->id) return Response()->json(['message'=>'You can not edit a link from this card, you are not the owner'],401);
+        if ($request['link']) $link->link = $request['link'];
+        if ($request['plataformId']) $link->plataform_id = $request['plataformId'];
+        if ($request['position']) $link->position = $request['position'];
+        $link->save();
+        return new FullCardResource($link->card()->first());
+    }
 }
