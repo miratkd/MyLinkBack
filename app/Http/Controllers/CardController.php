@@ -10,6 +10,7 @@ use App\Models\Plataform;
 use App\Models\SelectedLink;
 use App\Http\Resources\CardResource;
 use App\Http\Resources\FullCardResource;
+use App\Http\Resources\PublicCardResource;
 use App\Http\Resources\PlataformResource;
 
 class CardController extends Controller
@@ -130,5 +131,10 @@ class CardController extends Controller
         if ($request['position']) $link->position = $request['position'];
         $link->save();
         return new FullCardResource($link->card()->first());
+    }
+
+    public function getCard(string $id)
+    {
+        return new PublicCardResource(CardModel::find($id));
     }
 }

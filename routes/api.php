@@ -7,6 +7,7 @@ use App\Http\Controllers\CardController;
 
 Route::apiResource('/users', UserController::class);
 Route::post('/login', [UserController::class, 'login']);
+Route::get('/card/{id}', [CardController::class, 'getCard']);
 
 Route::group([ 'middleware' => 'auth:sanctum'], function(){
     Route::apiResource('/cards', CardController::class);
