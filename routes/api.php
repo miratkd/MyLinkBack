@@ -11,5 +11,6 @@ Route::post('/login', [UserController::class, 'login']);
 Route::group([ 'middleware' => 'auth:sanctum'], function(){
     Route::apiResource('/cards', CardController::class);
     Route::post('/addLink', [CardController::class, 'addLink']);
+    Route::delete('/removeLink/{id}', [CardController::class, 'removeLink']);
     Route::get('plataforms', [CardController::class, 'getPlataforms']);
 });

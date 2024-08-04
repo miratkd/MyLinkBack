@@ -110,4 +110,12 @@ class CardController extends Controller
         $link->save();
         return new FullCardResource($card);
     }
+
+    public function removeLink(string $id, Request $request) {
+        $link = SelectedLink::find($id);
+        if (!$link) return Response()->json(['message'=>'Link not found'],404);
+        if ($link->card()->first()->user()->first()->id != $request->user()->id) return Response()->json(['message'=>'You can not remove a link from this card, you are not the owner'],401);
+        $link->delete();
+        return new FullCardResource($link->card()->first());
+    }
 }
