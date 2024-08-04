@@ -1,0 +1,10 @@
+create railway project
+update project name
+create railway database
+add database to env and do a migration
+add laravel project
+copy env to "variable" tab
+change "APP_ENV" to "production"
+change "APP_NAME" 
+add "NIXPACKS_BUILD_CMD=composer install && php artisan optimize:clear && php artisan storage:link && php artisan migrate --force" to env
+generate domain port 8080
