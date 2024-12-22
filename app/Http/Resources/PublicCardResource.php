@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\PublicLinkResource;
 
-class FullCardResource extends JsonResource
+class PublicCardResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

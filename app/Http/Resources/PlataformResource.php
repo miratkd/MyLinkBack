@@ -18,7 +18,8 @@ class PlataformResource extends JsonResource
         return [
             'name' => $this->name,
             'imgUrl' => $this->img_url,
-            'color' => $this->color
+            'color' => $this->color,
+            'id' => $this->id
         ];
     }
 }
