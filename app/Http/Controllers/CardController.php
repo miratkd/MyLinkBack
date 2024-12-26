@@ -133,6 +133,24 @@ class CardController extends Controller
         return new FullCardResource($link->card()->first());
     }
 
+    public function updateCardOrder(string $id, Request $request) {
+        $card = CardModel::find($id);
+        $links = $card->links()->get();
+        $updateLinks = $request['links'];
+        if (!$card) return Response()->json(['message'=>'Card not found'],404);
+        if (!$updateLinks) return Response()->json(['message'=>'Link list missing'],404);
+        if ($card()->user()->first()->id != $request->user()->id) return Response()->json(['message'=>'You can not edit a link from this card, you are not the owner'],401);
+        foreach ($links as $link){
+            foreach ($updateLinks as $updateLink){
+                if ($link->id == $updateLink[0]){
+                    $link->position = $updateLink[1];
+                    $link->save();
+                }
+            }
+        }
+        return 'foi carai';
+    }
+
     public function getCard(string $id)
     {
         return new PublicCardResource(CardModel::find($id));

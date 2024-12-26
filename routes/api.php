@@ -15,4 +15,5 @@ Route::group([ 'middleware' => 'auth:sanctum'], function(){
     Route::delete('/removeLink/{id}', [CardController::class, 'removeLink']);
     Route::put('/updateLink/{id}', [CardController::class, 'updateLink']);
     Route::get('plataforms', [CardController::class, 'getPlataforms']);
+    Route::put('/updateCardOrder/{id}',[CardController::class, 'updateCardOrder']);
 });

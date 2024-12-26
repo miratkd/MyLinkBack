@@ -22,7 +22,7 @@ class PublicCardResource extends JsonResource
             'imageUrl' => $this->image_url,
             'title' => $this->title,
             'description' => $this->description,
-            'links' => PublicLinkResource::collection($this->links()->orderBy('position')->orderBy('updated_at')->get())
+            'links' => PublicLinkResource::collection($this->links()->orderBy('position')->get())
         ];
     }
 }
