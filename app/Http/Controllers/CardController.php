@@ -139,7 +139,7 @@ class CardController extends Controller
         $updateLinks = $request['links'];
         if (!$card) return Response()->json(['message'=>'Card not found'],404);
         if (!$updateLinks) return Response()->json(['message'=>'Link list missing'],404);
-        if ($card()->user()->first()->id != $request->user()->id) return Response()->json(['message'=>'You can not edit a link from this card, you are not the owner'],401);
+        if ($card->user()->first()->id != $request->user()->id) return Response()->json(['message'=>'You can not edit a link from this card, you are not the owner'],401);
         foreach ($links as $link){
             foreach ($updateLinks as $updateLink){
                 if ($link->id == $updateLink[0]){
@@ -148,7 +148,7 @@ class CardController extends Controller
                 }
             }
         }
-        return 'foi carai';
+        return new FullCardResource($card);
     }
 
     public function getCard(string $id)
