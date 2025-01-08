@@ -71,7 +71,7 @@ class CardController extends Controller
         if ($card->user()->first()->id != $request->user()->id) return Response()->json(['message'=>'You can only edit yours own cards'],401);
         if ($request['email']) $card->display_email = $request['email'];
         if ($request['title']) $card->title = $request['title'];
-        if ($request['description']) $card->display_email = $request['description'];
+        if ($request['description']) $card->description = $request['description'];
         if ($request['mainColor']) $card->main_color = $request['mainColor'];
         if ($request['imageUrl']) $card->image_url = $request['imageUrl'];
         $card->save();
